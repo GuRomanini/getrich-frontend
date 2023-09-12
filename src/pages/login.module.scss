@@ -1,0 +1,12 @@
+.container {
+  width: 80%;
+  align-items: center;
+  margin: 4rem auto;
+
+  display: flex;
+  flex-direction: column;
+
+  .textInput {
+    display: block;
+  }
+}
