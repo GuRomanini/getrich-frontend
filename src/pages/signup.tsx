@@ -7,10 +7,17 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-import styles from './login.module.scss'
+import styles from './styles/signup.module.scss'
+import Link from "next/link";
 
-export default function Login() {
+export default function Signup() {
+  const [name, setName] = useState('');
+  const [birthDate, setBirthDate] = React.useState<dateFns | null>(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +30,8 @@ export default function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    console.log(`O nome digitado foi: ${name}`);
+    console.log(`A data de nascimento fornecida foi: ${birthDate}`);
     console.log(`O username digitado foi: ${username}`);
     console.log(`A senha digitada foi: ${password}`);
   }
@@ -30,6 +39,23 @@ export default function Login() {
   return(
       <div className={styles.container}>
         <form onSubmit={handleSubmit}>
+          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={styles.textInput}>
+            <InputLabel htmlFor="outlined-adornment-password">Name</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type="text"
+              label="Username"
+              value={name}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setName(event.target.value)}}
+            />
+          </ FormControl>
+
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DemoContainer components={['DatePicker']}>
+              <DatePicker value={birthDate} onChange={(newValue) => {setBirthDate(newValue); console.log(newValue);}}/>
+            </DemoContainer>
+          </LocalizationProvider>
+
           <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={styles.textInput}>
             <InputLabel htmlFor="outlined-adornment-password">Username</InputLabel>
             <OutlinedInput
@@ -40,6 +66,7 @@ export default function Login() {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setUsername(event.target.value)}}
             />
           </ FormControl>
+
           <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={styles.textInput}>
             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
             <OutlinedInput
@@ -62,7 +89,8 @@ export default function Login() {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setPassword(event.target.value)}}
             />
           </FormControl>
-          <Button variant="contained" type="submit">Login</Button>
+
+          <Button variant="contained" type="submit" className={styles.button}>Cadastrar</Button>
         </form>
       </div>
     );
