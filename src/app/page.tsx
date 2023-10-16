@@ -1,5 +1,6 @@
 // Same as index.tsx
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return <h1>Hello Next.js</h1>
+  redirect('/signin');
 }

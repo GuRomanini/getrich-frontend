@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from 'next/router';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -11,12 +12,17 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import styles from './styles/signup.module.scss'
-import Link from "next/link";
+import styles from '../styles/signup.module.scss'
+
+import { User } from '../types/user'
 
 export default function Signup() {
+  const router = useRouter();
+  
   const [name, setName] = useState('');
+  const [docNumber, setDocNumber] = useState('');
   const [birthDate, setBirthDate] = React.useState<dateFns | null>(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -30,13 +36,20 @@ export default function Signup() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(`O nome digitado foi: ${name}`);
-    console.log(`A data de nascimento fornecida foi: ${birthDate}`);
-    console.log(`O username digitado foi: ${username}`);
-    console.log(`A senha digitada foi: ${password}`);
+    const newUser: User = {
+      name,
+      docNumber,
+      birthDate,
+      username,
+      password
+    }
+
+    console.log(newUser)
   }
 
   return(
+    <>
+      <ArrowBackIcon fontSize="large" className={styles.backButton} onClick={() => router.back()}/>
       <div className={styles.container}>
         <form onSubmit={handleSubmit}>
           <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={styles.textInput}>
@@ -47,6 +60,19 @@ export default function Signup() {
               label="Username"
               value={name}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setName(event.target.value)}}
+            />
+          </ FormControl>
+
+          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={styles.textInput}>
+            <InputLabel htmlFor="outlined-adornment-password">CPF (apenas números)</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type="text"
+              label="Username"
+              value={docNumber}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                if(event.target.value.length <= 11) setDocNumber(event.target.value);
+              }}
             />
           </ FormControl>
 
@@ -93,5 +119,6 @@ export default function Signup() {
           <Button variant="contained" type="submit" className={styles.button}>Cadastrar</Button>
         </form>
       </div>
-    );
+    </>
+  );
 }

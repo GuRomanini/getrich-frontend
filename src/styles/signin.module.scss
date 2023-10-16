@@ -1,11 +1,17 @@
+// body {
+// }
+
 .container {
   width: 80%;
   align-items: center;
-  margin: 4rem auto;
+  margin: auto;
+  padding: 3rem 4rem;
   text-align: center;
 
   display: flex;
   flex-direction: column;
+
+  gap: 2rem;
 
   .textInput {
     display: block;
@@ -14,5 +20,6 @@
 }
 
 .button {
-  margin-bottom: 1rem;
+  background: #343440;
+  font-weight: 600;
 }

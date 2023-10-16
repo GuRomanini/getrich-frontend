@@ -7,6 +7,7 @@
 :root{
 	// Theme colors here
 	// Example:
+	--primary: #343440;
 	--white: #FFF;
 
 	--gray-50: #F7F8FA;
@@ -29,7 +30,9 @@
 }
 
 body {
-	background: var(--gray-50);
+	// background: var(--gray-50);
+	background: radial-gradient(ellipse at top, #232330, transparent),
+             	radial-gradient(ellipse at bottom, #343440, transparent);
 }
 
 body, input, textarea, button {
