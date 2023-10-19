@@ -18,6 +18,8 @@ import styles from '../styles/signup.module.scss'
 
 import { User } from '../types/user'
 
+import { signup } from '../services/api'
+
 export default function Signup() {
   const router = useRouter();
   
@@ -45,6 +47,7 @@ export default function Signup() {
     }
 
     console.log(newUser)
+    signup(newUser);
   }
 
   return(
@@ -78,7 +81,7 @@ export default function Signup() {
 
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DemoContainer components={['DatePicker']}>
-              <DatePicker value={birthDate} onChange={(newValue) => {setBirthDate(newValue); console.log(newValue);}}/>
+              <DatePicker value={birthDate} onChange={(newValue) => {setBirthDate(newValue)}}/>
             </DemoContainer>
           </LocalizationProvider>
 

@@ -12,7 +12,11 @@ import styles from '../styles/signin.module.scss'
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { api } from '../services/api'
+import { SigninData } from '../types/user'
+
+import { api, signin } from '../services/api'
+
+require('../services/api');
 
 export default function Signin() {
   const [username, setUsername] = useState('');
@@ -29,11 +33,15 @@ export default function Signin() {
 
     console.log(`O username digitado foi: ${username}`);
     console.log(`A senha digitada foi: ${password}`);
-  }
 
-  useEffect(() => {
-    console.log(api.defaults.baseURL)
-  }, [])
+    const signinData: SigninData = {
+      username,
+      password
+    }
+
+    console.log(signinData)
+    signin(signinData)
+  }
 
   return(
     <div className={styles.container}>

@@ -22,6 +22,20 @@ const fakeUser: User = {
   docNumber: '43728291838'
 }
 
+const petr4: any = {
+  ticker: 'PETR4',
+  quantity: 100,
+  averagePrice: 28.00,
+  currentPrice: 37.00
+}
+
+const wege3: any = {
+  ticker: 'WEGE3',
+  quantity: 150,
+  averagePrice: 31.25,
+  currentPrice: 34.82
+}
+
 function createData(
   name: string,
   calories: number,
@@ -33,11 +47,8 @@ function createData(
 }
 
 const data = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+  petr4,
+  wege3
 ];
 
 import styles from '../styles/dashboard.module.scss'
@@ -45,7 +56,13 @@ import { User } from '@/types/user';
 
 export default function Dashboard() {
   useEffect(() => {
+    data.map((item) => {
+      item.upside = ((item.currentPrice / item.averagePrice) - 1) * 100;
+      if(item.currentPrice < item.averagePrice) item.upside *= -1;
 
+      item.upside = item.upside.toFixed(1).toString();
+      item.upside = item.upside + ' %';
+    })
   }, [])
 
   return(
@@ -82,16 +99,16 @@ export default function Dashboard() {
             <TableBody>
               {data.map((row) => (
                 <TableRow
-                  key={row.name}
+                  key={row.ticker}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {row.ticker}
                   </TableCell>
-                  <TableCell align="center">{row.calories}</TableCell>
-                  <TableCell align="center">{row.fat}</TableCell>
-                  <TableCell align="center">{row.carbs}</TableCell>
-                  <TableCell align="center">{row.protein}</TableCell>
+                  <TableCell align="center">{row.quantity}</TableCell>
+                  <TableCell align="center">{row.averagePrice}</TableCell>
+                  <TableCell align="center">{row.currentPrice}</TableCell>
+                  <TableCell align="center">{row.upside}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
