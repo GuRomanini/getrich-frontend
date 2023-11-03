@@ -6,7 +6,7 @@ export interface SigninData {
 export interface User {
   name: string;
   docNumber: string;
-  birthDate: Date;
+  birthDate: Date | dateFns | null;
   username: string;
   password: string;
 }

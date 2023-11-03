@@ -1,4 +1,6 @@
+import Head from 'next/head';
 import React, { useState, useEffect } from "react";
+
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -14,11 +16,9 @@ import Image from 'next/image';
 
 import { SigninData } from '../types/user'
 
-import { api, signin } from '../services/api'
+import { signin } from '../api/api'
 
-require('../services/api');
-
-export default function Signin() {
+export default function Page() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -44,48 +44,53 @@ export default function Signin() {
   }
 
   return(
-    <div className={styles.container}>
-      <Image width={230} height={140} src="/images/logo.png" alt="Getrich logo"/>
+    <>
+      <Head>
+        <title>Getrich | Sign In</title>
+      </Head>
+      <div className={styles.container}>
+        <Image width={230} height={140} src="/images/logo.png" alt="Getrich logo"/>
 
-      <form onSubmit={handleSubmit}>
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={styles.textInput}>
-          <InputLabel htmlFor="outlined-adornment-password">Username</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type="text"
-            label="Username"
-            value={username}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setUsername(event.target.value)}}
-          />
-        </ FormControl>
+        <form onSubmit={handleSubmit}>
+          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={styles.textInput}>
+            <InputLabel htmlFor="outlined-adornment-password">Username</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type="text"
+              label="Username"
+              value={username}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setUsername(event.target.value)}}
+            />
+          </ FormControl>
 
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={styles.textInput}>
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password"
-            value={password}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setPassword(event.target.value)}}
-          />
-        </FormControl>
+          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={styles.textInput}>
+            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+              value={password}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setPassword(event.target.value)}}
+            />
+          </FormControl>
 
-        <Button variant="contained" type="submit" className={styles.button}>Login</Button>
-      </form>
-    
-      <Link href="/signup">Não possui cadastro? Cadastre-se!</Link>
-    </div>
+          <Button variant="contained" type="submit" className={styles.button}>Login</Button>
+        </form>
+      
+        <Link href="/signup">Não possui cadastro? Cadastre-se!</Link>
+      </div>
+    </>
   );
 }

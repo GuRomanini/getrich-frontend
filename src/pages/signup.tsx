@@ -1,4 +1,6 @@
+import Head from 'next/head';
 import React, { useState } from "react";
+
 import { useRouter } from 'next/router';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -18,9 +20,9 @@ import styles from '../styles/signup.module.scss'
 
 import { User } from '../types/user'
 
-import { signup } from '../services/api'
+import { signup } from '../api/api'
 
-export default function Signup() {
+export default function Page() {
   const router = useRouter();
   
   const [name, setName] = useState('');
@@ -52,6 +54,9 @@ export default function Signup() {
 
   return(
     <>
+      <Head>
+        <title>Getrich | Sign Up</title>
+      </Head>
       <ArrowBackIcon fontSize="large" className={styles.backButton} onClick={() => router.back()}/>
       <div className={styles.container}>
         <form onSubmit={handleSubmit}>
