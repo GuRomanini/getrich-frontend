@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 
 import { SigninData, User } from '../types/user'
 
+console.log(`The env is: ${process.env.NEXT_PUBLIC_API_ENDPOINT}`)
+
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT
   // baseURL: '/api'
@@ -28,6 +30,9 @@ export const signup = async (data: User) => {
   try {
     api.post('/user', data).then((res: AxiosResponse) => {
       console.log(res)
+      if (res.status >= 200 && res.status < 300){
+        return true
+      }
       if(res.status == 400) {
         redirect('/login')
       }
@@ -35,5 +40,8 @@ export const signup = async (data: User) => {
   } catch(e: AxiosError | any) {
     console.log('Ops, deu ruim!');
     e.console.error();
+    return false
   }
+
+  return true
 }

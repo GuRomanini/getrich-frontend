@@ -4,9 +4,9 @@ export interface SigninData {
 }
 
 export interface User {
-  name: string;
-  docNumber: string;
-  birthDate: Date | dateFns | null;
+  person_name: string;
+  document_number: string;
+  date_of_birth: Date | null | string;
   username: string;
-  password: string;
+  user_password: string;
 }
