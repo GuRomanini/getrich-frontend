@@ -1,6 +1,6 @@
 export interface SigninData {
   username: string;
-  password: string;
+  user_password: string;
 }
 
 export interface User {

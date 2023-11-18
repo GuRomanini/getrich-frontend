@@ -14,7 +14,7 @@ export const api = axios.create({
 /* --------------------------------- Session -------------------------------- */
 export const signin = async (data: SigninData) => {
   try {
-    await api.post('/user', data).then((res: AxiosResponse) => {
+    await api.post('/user/login', data).then((res: AxiosResponse) => {
       if(res.status == 400) {
         redirect('/dashboard');
       }

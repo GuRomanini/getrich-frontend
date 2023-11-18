@@ -36,7 +36,7 @@ export default function Page() {
 
     const signinData: SigninData = {
       username,
-      password
+      user_password: password
     }
 
     console.log(signinData)
