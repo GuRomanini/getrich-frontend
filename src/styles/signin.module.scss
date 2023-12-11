@@ -17,6 +17,37 @@
     display: block;
     margin: 1.5rem;
   }
+
+  .signinFailed {
+    background-color: #ef3838; /* Red background color */
+    color: #fff; /* White text color */
+    padding: 15px; /* Padding around the content */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift effect */
+    text-align: center; /* Center-align text */
+    margin: 20px 0; /* Margin to provide space around the message */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .signinFailed::before {
+    content: '\2713'; /* Unicode checkmark character */
+    font-size: 24px; /* Larger font size for the checkmark */
+    margin-right: 10px; /* Margin to the right of the checkmark */
+  }
+  
+  .signinFailed a {
+    color: #fff; /* Style links inside the success message */
+    text-decoration: underline; /* Underline links */
+    margin-left: 10px; /* Margin to the left of the links */
+  }
+  
+  .signinFailed a:hover {
+    text-decoration: none; /* Remove underline on hover */
+  }
 }
 
 .button {

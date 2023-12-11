@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useRouter } from 'next/router';
 
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -17,30 +18,43 @@ import Image from 'next/image';
 import { SigninData } from '../types/user'
 
 import { signin } from '../api/api'
+import { redirect } from 'next/navigation';
 
 export default function Page() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [signinFailed, setSigninFailed] = useState<boolean | undefined>(false)
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = () => setShowPassword((show) => !show)
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    event.preventDefault()
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    console.log(`O username digitado foi: ${username}`);
-    console.log(`A senha digitada foi: ${password}`);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
     const signinData: SigninData = {
       username,
       user_password: password
     }
 
-    console.log(signinData)
-    signin(signinData)
+    const res = await signin(signinData, true) // verbose = true
+
+    if(res) {
+      setSigninFailed(false)
+      router.push('/dashboard')
+    } else {
+      resetForm()
+      setSigninFailed(true)
+    }
+  }
+
+  const resetForm = () => {
+    setUsername("")
+    setPassword("")
+    setSigninFailed(true)
   }
 
   return(
@@ -90,6 +104,12 @@ export default function Page() {
         </form>
       
         <Link href="/signup">Não possui cadastro? Cadastre-se!</Link>
+      
+        {signinFailed && (
+          <div className={styles.signinFailed}>
+            <p>O Login falhou. Por favor, confira seu username e sua senha e tente novamente!</p>
+          </div>
+        )}
       </div>
     </>
   );

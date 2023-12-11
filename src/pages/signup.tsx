@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import React, { useState, useEffect, useCallback } from "react";
-
+import React, { useState } from "react";
 import { useRouter } from 'next/router';
+
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -15,12 +15,10 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 
 import styles from '../styles/signup.module.scss'
-
 import { User } from '../types/user'
-
 import { signup } from '../api/api'
 
 // import datetime;
@@ -28,13 +26,14 @@ import { signup } from '../api/api'
 export default function Page() {
   const router = useRouter();
   
-  const [name, setName] = useState('');
-  const [docNumber, setDocNumber] = useState('');
-  const [birthDate, setBirthDate] = React.useState<Date | null | string>(String(new Date().getDay()) + String(new Date().getMonth()) + String(new Date().getFullYear()));
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [docNumber, setDocNumber] = useState("");
+  // const [birthDate, setBirthDate] = React.useState<Date | null | string>(String(new Date().getDay()) + String(new Date().getMonth()) + String(new Date().getFullYear()));
+  const [birthDate, setBirthDate] = React.useState<Date | null | string>("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isSignupSuccess, setSignupSuccess] = useState(false);
+  const [isSignupSuccess, setSignupSuccess] = useState<boolean | undefined>(false);
   const [, updateState] = useState<any>();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -53,27 +52,24 @@ export default function Page() {
       user_password: password
     }
 
-    console.log(newUser)
-    const is_login_succesfull = signup(newUser);
-    const result = await is_login_succesfull.then((value) => value)
+    const res = await signup(newUser, true) // verbose = true
 
-    const reset = () => {
-      setName('')
-      setDocNumber('')
-      setBirthDate('')
-      setUsername('')
-      setPassword('')
-      setSignupSuccess(false)
+    if(res) {
+      setTimeout(() => {}, 3000)
+      router.push('/signin')
+    } else {
+      resetForm()
     }
-
-    reset()
-
-    console.log(result)
-    setSignupSuccess(result)
-
   }
 
-  const forceUpdate = useCallback(() => updateState({}), [])
+  const resetForm = () => {
+    setName("")
+    setDocNumber("")
+    setBirthDate("")
+    setUsername("")
+    setPassword("")
+    setSignupSuccess(false)
+  }
 
   return(
     <>

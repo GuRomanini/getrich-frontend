@@ -54,9 +54,6 @@ export default function Page() {
       item.upside = item.upside.toFixed(1).toString();
       item.upside = item.upside + ' %';
     })
-
-    const response = fetch('http://localhost:8080/user', { mode: 'cors' });
-    console.log(response)
   }, [])
 
   return(
