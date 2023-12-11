@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { SigninData, User } from '../types/user'
+import { NewUser, SigninData } from '../types/user'
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT
@@ -16,7 +16,7 @@ export const signin = async (data: SigninData, verbose: boolean = false) => {
       console.log(res.data)
     }
     
-    return true
+    return res.data.data
   }).catch((err) => {
     if(verbose) {
       if(err.response) {
@@ -28,14 +28,14 @@ export const signin = async (data: SigninData, verbose: boolean = false) => {
       console.log(`Error: ${err.message}`)
     }
 
-    return false
+    return null
   })
 
   return res
 }
 
 /* ---------------------------------- User ---------------------------------- */
-export const signup = async (data: User, verbose: boolean = false) => {
+export const signup = async (data: NewUser, verbose: boolean = false) => {
   if(verbose)
     console.log("Enviando requisição de cadastro para o servidor...")
   

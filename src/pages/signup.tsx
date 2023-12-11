@@ -18,7 +18,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // import DatePicker from "react-datepicker";
 
 import styles from '../styles/signup.module.scss'
-import { User } from '../types/user'
+import { NewUser } from '../types/user'
 import { signup } from '../api/api'
 
 // import datetime;
@@ -26,13 +26,12 @@ import { signup } from '../api/api'
 export default function Page() {
   const router = useRouter();
   
-  const [name, setName] = useState("");
-  const [docNumber, setDocNumber] = useState("");
-  // const [birthDate, setBirthDate] = React.useState<Date | null | string>(String(new Date().getDay()) + String(new Date().getMonth()) + String(new Date().getFullYear()));
-  const [birthDate, setBirthDate] = React.useState<Date | null | string>("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState<string>("");
+  const [docNumber, setDocNumber] = useState<string>("");
+  const [birthDate, setBirthDate] = useState<Date | null | string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isSignupSuccess, setSignupSuccess] = useState<boolean | undefined>(false);
   const [, updateState] = useState<any>();
 
@@ -44,7 +43,7 @@ export default function Page() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newUser: User = {
+    const newUser: NewUser = {
       person_name: name,
       document_number: docNumber,
       date_of_birth: birthDate,

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -16,15 +16,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import styles from '../styles/dashboard.module.scss'
-import { User } from '@/types/user';
-
-const fakeUser: User = {
-  username: 'romanini',
-  password: 'senha123',
-  name: 'Gustavo',
-  birthDate: new Date(1999, 0o3, 30),
-  docNumber: '43728291838'
-}
+import { UserContext } from '@/contexts/UserContext';
 
 const petr4: any = {
   ticker: 'PETR4',
@@ -46,6 +38,13 @@ const data = [
 ];
 
 export default function Page() {
+  const { 
+    person_name,
+    document_number,
+    date_of_birth,
+    username
+  } = useContext(UserContext)
+  
   useEffect(() => {
     data.map((item) => {
       item.upside = ((item.currentPrice / item.averagePrice) - 1) * 100;
@@ -62,7 +61,7 @@ export default function Page() {
         <title>Getrich | Dashboard</title>
       </Head>
       <>
-        <h1>{`Bem-vindo, ${fakeUser.name}`}</h1>
+        <h1>{`Bem-vindo, ${person_name}`}</h1>
         <div className={styles.container}>
           <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={styles.searchBar}>
             <InputLabel htmlFor="outlined-adornment-password">Search</InputLabel>

@@ -1,6 +1,8 @@
-import Head from 'next/head';
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -11,20 +13,18 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 
-import styles from '../styles/signin.module.scss'
-import Link from 'next/link';
-import Image from 'next/image';
-
 import { SigninData } from '../types/user'
-
 import { signin } from '../api/api'
-import { redirect } from 'next/navigation';
+import { UserContext } from '@/contexts/UserContext';
+
+import styles from '../styles/signin.module.scss'
 
 export default function Page() {
   const router = useRouter()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
+  const { updateUser } = useContext(UserContext)
+  const [username, setUsername] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const [showPassword, setShowPassword] = useState<boolean>(false)
   const [signinFailed, setSigninFailed] = useState<boolean | undefined>(false)
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
@@ -40,15 +40,15 @@ export default function Page() {
       user_password: password
     }
 
-    const res = await signin(signinData, true) // verbose = true
-
-    if(res) {
-      setSigninFailed(false)
-      router.push('/dashboard')
-    } else {
-      resetForm()
-      setSigninFailed(true)
-    }
+    await signin(signinData, true) // verbose = true
+      .then(res => {
+        setSigninFailed(false)
+        updateUser(res)
+        router.push('/dashboard')
+      }).catch(err => {
+        console.log(`Error: ${err.message}`)
+        resetForm()
+      })
   }
 
   const resetForm = () => {
