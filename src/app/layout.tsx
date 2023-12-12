@@ -1,9 +1,12 @@
 // Seems like _app.tsx
-import '../styles/globals.scss'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { useState } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+import { UserContext, UserContextData } from '@/contexts/UserContext'
+import { UserData } from '@/types/user'
+
+import { inter } from '../styles/fonts'
+import '../styles/globals.scss'
 
 export const metadata: Metadata = {
   title: 'Getrich',
@@ -15,9 +18,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const [user, setUser] = useState({} as UserData)
+
+  function updateUser(user: UserData) {
+    setUser(user)
+  }
+
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <UserContext.Provider value={{ ...user, updateUser }}>
+      <html lang="en">
+        <body className={`${inter.className} antialiased`}>{children}</body>
+      </html>
+    </UserContext.Provider>
   )
 }
